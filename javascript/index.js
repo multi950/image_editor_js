@@ -2,8 +2,10 @@
 
 var canvas = document.getElementById('editing_canvas');
 var canvas_context = canvas.getContext('2d');
+var changes = new Array;
 
 function draw_on_canvas(source_image) {
+    save_changes();
     imageLoader(source_image.src)
 }
 
@@ -23,6 +25,7 @@ function reset_canvas() {
 }
 
 function remove_colors() {
+    save_changes();
     let image_data = canvas_context.getImageData(0, 0, canvas.width, canvas.height);
     let pixels = image_data.data;
     let length = pixels.length;
@@ -36,6 +39,7 @@ function remove_colors() {
 }
 
 function invert_colors() {
+    save_changes();
     canvas_context.globalCompositeOperation = 'difference';
     canvas_context.fillStyle = 'white';
     canvas_context.fillRect(0, 0, canvas.width, canvas.height);
@@ -47,8 +51,9 @@ function set_canvas_size(width, height) {
 }
 
 function rotate_canvas() {
-
+    save_changes();
     let canvas_copy = copy_canvas();
+    //TODO change to function
     canvas_context.clearRect(0, 0, canvas.width, canvas.height);
 
     set_canvas_size(canvas_copy.height, canvas_copy.width);
@@ -65,4 +70,19 @@ function copy_canvas() {
     let canvas_copy_context = canvas_copy.getContext('2d');
     canvas_copy_context.drawImage(canvas, 0, 0);
     return canvas_copy;
+}
+
+function undo() {
+    imageLoader(changes.pop());
+    if (changes == 0) {
+        reset_canvas();
+        canvas.height = 0;
+        document.getElementById("undo_button").disabled = true;
+    }
+}
+
+function save_changes() {
+    let current_canvas = canvas.toDataURL("image/png");
+    changes.push(current_canvas);
+    document.getElementById("undo_button").disabled = false;
 }
