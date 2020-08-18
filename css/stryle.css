@@ -1,7 +1,7 @@
 .main {
     width: 40%;
     margin: auto;
-    padding: 8px;
+    margin-top: 28px;
 }
 
 .main>div+div {
@@ -21,12 +21,11 @@
 
 #editing_canvas {
     max-height: 800px;
-    width: 100%;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
     display: block;
     object-fit: contain;
-
 }
 
 .editing_buttons {

@@ -7,10 +7,10 @@ document.getElementById('choose_file_button').addEventListener('change', choose_
 
 function draw_on_canvas(source_image) {
     save_changes();
-    imageLoader(source_image.src)
+    image_loader(source_image.src)
 }
 
-function imageLoader(source) {
+function image_loader(source) {
 
     let image = new Image();
     image.onload = function () {
@@ -35,7 +35,6 @@ function remove_colors() {
         let grey = pixels[i] * .3 + pixels[i + 1] * .59 + pixels[i + 2] * .11;
         pixels[i] = pixels[i + 1] = pixels[i + 2] = grey;
     }
-
     canvas_context.putImageData(image_data, 0, 0);
 }
 
@@ -54,11 +53,8 @@ function set_canvas_size(width, height) {
 function rotate_canvas() {
     save_changes();
     let canvas_copy = copy_canvas();
-    //TODO change to function
-    canvas_context.clearRect(0, 0, canvas.width, canvas.height);
-
+    reset_canvas();
     set_canvas_size(canvas_copy.height, canvas_copy.width);
-
     canvas_context.setTransform(0, 1, -1, 0, canvas_copy.height, 0); //Move axis to bottom left and origin to the top right
     canvas_context.drawImage(canvas_copy, 0, 0);
     canvas_context.setTransform(1, 0, 0, 1, 0, 0);
@@ -74,7 +70,7 @@ function copy_canvas() {
 }
 
 function undo() {
-    imageLoader(changes.pop());
+    image_loader(changes.pop());
     if (changes == 0) {
         reset_canvas();
         canvas.height = 0;
@@ -92,7 +88,7 @@ function choose_file(file_chosen_event){
     save_changes();
     let reader = new FileReader();
     reader.onload = function(reader_event){
-        imageLoader(reader_event.target.result);
+        image_loader(reader_event.target.result);
     }
     reader.readAsDataURL(file_chosen_event.target.files[0]);   
 }
