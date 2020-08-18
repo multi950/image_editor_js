@@ -3,6 +3,7 @@
 var canvas = document.getElementById('editing_canvas');
 var canvas_context = canvas.getContext('2d');
 var changes = new Array;
+document.getElementById('choose_file_button').addEventListener('change', choose_file, false);
 
 function draw_on_canvas(source_image) {
     save_changes();
@@ -85,4 +86,13 @@ function save_changes() {
     let current_canvas = canvas.toDataURL("image/png");
     changes.push(current_canvas);
     document.getElementById("undo_button").disabled = false;
+}
+
+function choose_file(file_chosen_event){
+    save_changes();
+    let reader = new FileReader();
+    reader.onload = function(reader_event){
+        imageLoader(reader_event.target.result);
+    }
+    reader.readAsDataURL(file_chosen_event.target.files[0]);   
 }
