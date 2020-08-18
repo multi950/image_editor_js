@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Image editor</title>
+    <link rel="stylesheet" href="/css/stryle.css">
+</head>
+
+<body>
+    <div id="measure"></div>
+    <div class="main">
+        <div class="selection">
+            <img onclick="draw_on_canvas(this)" src="/resources/running_man_1.jpg" alt="Running man 1">
+            <img onclick="draw_on_canvas(this)" src="/resources/running_woman.jpg" alt="Running woman">
+            <img onclick="draw_on_canvas(this)" src="/resources/running_man_2.jpg" alt="Running man 2">
+        </div>
+        <div class="canvas_container">
+            <canvas id="editing_canvas" height="0">
+        </div>
+        <div class="editing_buttons">
+            <button onclick="remove_colors()">Black and white</button>
+            <button onclick="invert_colors()">Invert</button>
+        </div>
+
+    </div>
+    <script type="text/javascript" src="/javascript/index.js"></script>
+</body>
