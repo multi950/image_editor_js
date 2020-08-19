@@ -15,8 +15,9 @@ function image_loader(source) {
     let image = new Image();
     image.onload = function () {
         reset_canvas();
-        set_canvas_size(image.width, image.height);
-        canvas_context.drawImage(image, 0, 0, image.width, image.height);
+        let scale = get_scale_to_fill(image);
+        set_canvas_size(image.width * scale, image.height * scale);
+        canvas_context.drawImage(image, 0, 0, canvas.width, canvas.height);
     }
     image.src = source;
 }
@@ -71,7 +72,7 @@ function copy_canvas() {
 
 function undo() {
     image_loader(changes.pop());
-    if (changes == 0) {
+    if (changes.length == 0) {
         reset_canvas();
         canvas.height = 0;
         document.getElementById("undo_button").disabled = true;
@@ -91,4 +92,11 @@ function choose_file(file_chosen_event){
         image_loader(reader_event.target.result);
     }
     reader.readAsDataURL(file_chosen_event.target.files[0]);   
+}
+
+function get_scale_to_fill(image){
+    let max_width = (document.getElementsByClassName('main')[0].offsetWidth);
+    let canvas_max_height = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--canvas_max_height'));
+    console.log(canvas_max_height)
+    return Math.max(max_width / image.width, canvas_max_height / image.height);
 }

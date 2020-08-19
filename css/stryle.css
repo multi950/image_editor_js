@@ -1,3 +1,7 @@
+:root {
+    --canvas_max_height: 800px;
+}
+
 .main {
     width: 40%;
     margin: auto;
@@ -20,7 +24,7 @@
 }
 
 #editing_canvas {
-    max-height: 800px;
+    max-height: var(--canvas_max_height);
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
